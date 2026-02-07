@@ -1,0 +1,11 @@
+services:
+  db:
+    image: postgres:17.6
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: document_management
+      POSTGRES_DB: km_system_db
+    ports:
+      - "5432:5432"
+      
