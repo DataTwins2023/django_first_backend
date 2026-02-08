@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,6 +35,14 @@ ALLOWED_HOSTS = []
 
 # 在 settings.py 加入這行
 AUTH_USER_MODEL = 'account_management.User'
+
+REST_FRAMEWORK = {
+    # 設定系統的預設認證方式為 JWT，這樣所有需要認證的 API 就會自動使用 JWT 來驗證使用者身份
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
 
 
 # Application definition
@@ -131,3 +140,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+SIMPLE_JWT = {
+    # Access Token 的有效期，通常設短一點比較安全（例如 60 分鐘）
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    # Refresh Token 的有效期，用來換取新的 Access Token（例如 1 天）
+    # 這樣使用者在 1 天內都不需要重新登入，只要用 Refresh Token 換取新的 Access Token 就好
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    
+    # 認證 Header 的關鍵字，前端傳過來時要寫成 Authorization: Bearer <token>
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    
+    # 使用你自定義 User 模型的 user_id 欄位
+    'USER_ID_FIELD': 'user_id',
+    'USER_ID_CLAIM': 'user_id',
+}

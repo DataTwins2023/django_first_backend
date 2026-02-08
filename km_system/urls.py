@@ -16,9 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('documents/', include('document_management.urls')),
-    path('accounts/', include('account_management.urls'))
+    path('accounts/', include('account_management.urls')),
+    # JWT 登入介面：輸入帳密後取得 Access & Refresh Token
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # 刷新介面：用 Refresh Token 換取新的 Access Token
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
