@@ -32,6 +32,10 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+# 在 settings.py 加入這行
+AUTH_USER_MODEL = 'account_management.User'
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'document_management',
+    'account_management',
     'rest_framework',
     'drf_spectacular',
 ]
