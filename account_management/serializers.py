@@ -29,3 +29,9 @@ class RegisterSerializer(serializers.ModelSerializer):
             email=validated_data.get('email', '')
         )
         return user
+    
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['user_id', 'username', 'email'] # 你想在 API 畫面上看到的欄位
+        read_only_fields = ['user_id', 'username'] # 這兩個欄位通常不讓使用者事後修改
